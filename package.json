@@ -1,0 +1,15 @@
+{
+	"name": "AdventOfCode2023",
+	"version": "1.0.0",
+	"description": "Advent of code 2023",
+	"repository": "git@github.com:vandenbergrobin/AdventOfCode2023.git",
+	"author": "Robin van den Berg",
+	"license": "MIT",
+	"private": false,
+	"dependencies": {
+		"fs": "^0.0.1-security"
+	},
+	"devDependencies": {
+		"@types/node": "^20.10.2"
+	}
+}
