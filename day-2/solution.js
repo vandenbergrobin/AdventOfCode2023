@@ -5,12 +5,7 @@ async function readFile() {
 	const inputArray = input.split("\n");
 	return inputArray;
 }
-const colourLimits =
-{
-	'red': 12,
-	'green': 13,
-	'blue': 14,
-};
+
 async function getGameResults() {
 	const inputArray = await readFile();
 	const games = inputArray.map((value, index) => {
@@ -36,23 +31,27 @@ async function getGameResults() {
 }
 
 function validateGameResults(games) {
-	const res = games.every((game) => {
-		const validGame = game.every((colour) => {
-			const isValid = colour.amount <= colourLimits[colour.colour];
-			return isValid;
+	const colours = {};
+	games.forEach((game) => {
+		game.forEach((colour) => {
+			if (colours[colour.colour] === undefined) {
+				colours[colour.colour] = colour.amount;
+			} else {
+				if (colours[colour.colour] < colour.amount) colours[colour.colour] = colour.amount;
+			}
 		})
-		return validGame;
 	});
-	return res;
+	const key = Object.keys(colours);
+	const power = key.reduce((acc, colour) => {
+		return acc * colours[colour];
+	}, 1);
+	return power;
 }
 
 (async () => {
 	const res = await getGameResults();
 	const validGames = res.reduce((acc, game) => {
-		if (validateGameResults(game.results) === true) {
-			return acc + game.gameID;
-		}
-		return acc;
+		return acc + validateGameResults(game.results)
 	}, 0);
 	console.log(validGames);
 })();
